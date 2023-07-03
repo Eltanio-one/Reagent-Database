@@ -43,62 +43,21 @@ def main():
                     with conn:
                         with conn.cursor() as cur:
                             # match keys to perform specific insert operation
-                            match key:
-                                case "date_arrived":
-                                    cur.execute(
-                                        """INSERT INTO date_arrived (date_arrived) VALUES (%s)""",
-                                        [value],
-                                    )
-                                case "date_ordered":
-                                    cur.execute(
-                                        """INSERT INTO date_ordered (date_ordered) VALUES (%s)""",
-                                        [value],
-                                    )
-                                case "date_requested":
-                                    cur.execute(
-                                        """INSERT INTO date_requested (date_requested) VALUES (%s)""",
-                                        [value],
-                                    )
-                                case "list_price":
-                                    cur.execute(
-                                        """INSERT INTO list_price (list_price) VALUES (%s)""",
-                                        [value],
-                                    )
-                                case "new_item":
-                                    cur.execute(
-                                        """INSERT INTO new_item (new_item) VALUES (%s)""",
-                                        [value],
-                                    )
-                                case "po_number":
-                                    cur.execute(
-                                        """INSERT INTO po_number (po_number) VALUES (%s)""",
-                                        [value],
-                                    )
-                                case "project_code":
-                                    cur.execute(
-                                        """INSERT INTO project_code (project_code) VALUES (%s)""",
-                                        [value],
-                                    )
-                                case "quantity":
-                                    cur.execute(
-                                        """INSERT INTO quantity (quantity) VALUES (%s)""",
-                                        [value],
-                                    )
-                                case "reagent":
-                                    cur.execute(
-                                        """INSERT INTO reagent (reagent) VALUES (%s)""",
-                                        [value],
-                                    )
-                                case "researcher":
-                                    cur.execute(
-                                        """INSERT INTO researcher (researcher) VALUES (%s)""",
-                                        [value],
-                                    )
-                                case "supplier":
-                                    cur.execute(
-                                        """INSERT INTO supplier (supplier) VALUES (%s)""",
-                                        [value],
-                                    )
+                            if key in [
+                                "date_arrived",
+                                "date_ordered",
+                                "date_received",
+                                "po_number",
+                            ]:
+                                cur.execute(
+                                    """INSERT INTO order_information (%s) VALUES (%s)""",
+                                    (key, value),
+                                )
+                            else:
+                                cur.execute(
+                                    """INSERT INTO reagent_information (%s) VALUES (%s)""",
+                                    (key, value),
+                                )
                             conn.commit()
                 except (Exception, DatabaseError) as error:
                     print(error)
