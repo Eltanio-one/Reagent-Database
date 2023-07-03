@@ -7,22 +7,23 @@ def create_tables():
     commands = (
         """
         CREATE TABLE order_information (
-            order_id SERIAL PRIMARY KEY NOT NULL,
-            date_requested VARCHAR(255) NOT NULL,
-            date_ordered VARCHAR(255) NOT NULL,
-            date_arrived VARCHAR(255) NOT NULL,
-            po_number VARCHAR(255) NOT NULL,
+            order_id SERIAL PRIMARY KEY,
+            date_requested VARCHAR(255),
+            date_ordered VARCHAR(255),
+            date_arrived VARCHAR(255),
+            researcher VARCHAR(255),
+            project_code VARCHAR(255),
+            po_number VARCHAR(255)
         )
         """,
         """
         CREATE TABLE reagent_information (
-            reagent_id SERIAL PRIMARY KEY NOT NULL,
-            new_item VARCHAR(255) NOT NULL,
-            product_code VARCHAR(255) NOT NULL,
-            supplier VARCHAR(255) NOT NULL,
-            researcher VARCHAR(255) NOT NULL,
-            quantity VARCHAR(255) NOT NULL,
-            FOREIGN KEY (reagent_id) REFERENCES order_information (order_id) ON UPDATE CASCADE ON DELETE CASCADE
+            reagent_id SERIAL PRIMARY KEY,
+            new_item VARCHAR(255),
+            product_code VARCHAR(255),
+            supplier VARCHAR(255),
+            quantity VARCHAR(255),
+            list_price VARCHAR(255)
         )
         """)
     

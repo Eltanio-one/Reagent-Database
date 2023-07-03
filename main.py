@@ -10,11 +10,10 @@ def main():
     if len(sys.argv) != 2:
         print("Usage: main.py <csv file>")
         return
-    # convert .xlsx to .csv
-    csv_name = sys.argv[1]
-    read_file = pd.read_excel(csv_name)
+    # convert .xlsx to .csv and generate .csv file
+    read_file = pd.read_excel(sys.argv[1])
     read_file.to_csv("test.csv", index=None, header=True)
-    csv_name = csv_name.replace(".xlsx", ".csv")
+    csv_name = sys.argv[1].replace(".xlsx", ".csv")
     # read csv
     with open(csv_name, "r") as file:
         reader = csv.DictReader(file)
@@ -43,21 +42,62 @@ def main():
                     with conn:
                         with conn.cursor() as cur:
                             # match keys to perform specific insert operation
-                            if key in [
-                                "date_arrived",
-                                "date_ordered",
-                                "date_received",
-                                "po_number",
-                            ]:
-                                cur.execute(
-                                    """INSERT INTO order_information (%s) VALUES (%s)""",
-                                    (key, value),
-                                )
-                            else:
-                                cur.execute(
-                                    """INSERT INTO reagent_information (%s) VALUES (%s)""",
-                                    (key, value),
-                                )
+                            match key:
+                                case "date_arrived":
+                                    cur.execute(
+                                        """INSERT INTO order_information (date_arrived) VALUES (%s)""",
+                                        [value],
+                                    )
+                                case "date_ordered":
+                                    cur.execute(
+                                        """INSERT INTO order_information (date_ordered) VALUES (%s)""",
+                                        [value],
+                                    )
+                                case "date_requested":
+                                    cur.execute(
+                                        """INSERT INTO order_information (date_requested) VALUES (%s)""",
+                                        [value],
+                                    )
+                                case "list_price":
+                                    cur.execute(
+                                        """INSERT INTO reagent_information (list_price) VALUES (%s)""",
+                                        [value],
+                                    )
+                                case "new_item":
+                                    cur.execute(
+                                        """INSERT INTO reagent_information (new_item) VALUES (%s)""",
+                                        [value],
+                                    )
+                                case "po_number":
+                                    cur.execute(
+                                        """INSERT INTO order_information (po_number) VALUES (%s)""",
+                                        [value],
+                                    )
+                                case "project_code":
+                                    cur.execute(
+                                        """INSERT INTO order_information (project_code) VALUES (%s)""",
+                                        [value],
+                                    )
+                                case "quantity":
+                                    cur.execute(
+                                        """INSERT INTO reagent_information (quantity) VALUES (%s)""",
+                                        [value],
+                                    )
+                                case "reagent":
+                                    cur.execute(
+                                        """INSERT INTO reagent_information (reagent) VALUES (%s)""",
+                                        [value],
+                                    )
+                                case "researcher":
+                                    cur.execute(
+                                        """INSERT INTO order_information (researcher) VALUES (%s)""",
+                                        [value],
+                                    )
+                                case "supplier":
+                                    cur.execute(
+                                        """INSERT INTO reagent_information (supplier) VALUES (%s)""",
+                                        [value],
+                                    )
                             conn.commit()
                 except (Exception, DatabaseError) as error:
                     print(error)
