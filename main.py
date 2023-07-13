@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 
 
-def main():
+def main() -> None:
     # check that csv arg passed
     if len(sys.argv) != 2:
         print("Usage: main.py <csv file>")
